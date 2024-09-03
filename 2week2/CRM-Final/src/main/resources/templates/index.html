@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout(~{::body})}">
+
+<body class="bg-light">
+    <center>首页</center>
+
+    <th:block th:if="${usersdatas!=null && usersdatas.size() > 0}"
+              th:each="usersdata : ${usersdatas}"
+    >
+        <h4 th:text="${usersdata.usersInfo}"></h4>>
+
+    </th:block>
+</body>
+
+</html>

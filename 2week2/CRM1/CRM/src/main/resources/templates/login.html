@@ -1,0 +1,58 @@
+<!doctype html>
+
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="generator" content="Hugo 0.88.1">
+  <title>用户登录</title>
+
+  <link rel="shortcut icon" type="image/x-icon" th:href="@{/resources/brand/favicon.ico}" />
+
+  <!-- Bootstrap core CSS -->
+  <link th:href="@{/resources/dist/css/bootstrap.min.css}" rel="stylesheet">
+
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+
+  <!-- Custom styles for this template -->
+  <link th:href="@{/resources/dist/css/signin.css}" rel="stylesheet">
+  <link th:href="@{/resources/dist/css/bootstrapValidator.min.css}" rel="stylesheet">
+</head>
+
+<body class="text-center">
+
+  <form id="login_form" class="form-signin" action="/verify" method="post" data-bv-message="This value is not valid"
+    data-bv-feedbackicons-valid="glyphicon glyphicon-ok" data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+    data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+    <img class="mb-4" th:src="@{/resources/brand/ssxy.svg}" alt="" width="72" height="72">
+    <label for="usersName" class="sr-only">usersName</label>
+    <input maxlength="32" type="name" id="usersName" name="usersName" class="form-control" placeholder="用户名"
+      data-bv-trigger="keyup" required autofocus>
+    <label for="usersPassword" class="sr-only">Password</label>
+    <input maxlength="64" type="usersPassword" id="usersPassword" name="usersPassword" class="form-control" placeholder="密码"
+      required autofocus>
+    <button id="login_button" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <p class="mt-5 mb-3 text-muted">&copy; 2017-2021</p>
+  </form>
+
+</body>
+
+</html>

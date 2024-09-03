@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.1.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.kinginsai</groupId>
+    <artifactId>CRM</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+    <name>CRM</name>
+    <description>Demo project for Spring Boot</description>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <weixin-java-pay.version>3.8.0</weixin-java-pay.version>
+        <io.springfox.version>2.5.0</io.springfox.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.locales>zh_CN</project.build.locales>
+
+        <!-- Web dependencies -->
+        <webjars-bootstrap.version>3.3.6</webjars-bootstrap.version>
+        <webjars-jquery-ui.version>1.11.4</webjars-jquery-ui.version>
+        <webjars-jquery.version>2.2.4</webjars-jquery.version>
+        <wro4j.version>1.8.0</wro4j.version>
+
+        <apache.commons.logging.version>1.2</apache.commons.logging.version>
+
+        <!-- crawler4j Compile time Dependencies -->
+        <slf4j.version>1.7.22</slf4j.version>
+        <logback.version>1.1.7</logback.version>
+        <guava.version>24.0-jre</guava.version>
+        <apache.http.components.version>4.5.3</apache.http.components.version>
+        <je.version>5.0.84</je.version>
+        <apache.tika.version>1.16</apache.tika.version>
+        <!--test dependency versions -->
+        <junit.version>4.12</junit.version>
+        <wiremock.version>2.14.0</wiremock.version>
+        <spock.version>1.0-groovy-2.4</spock.version>
+        <groovy.version>2.4.12</groovy.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>${apache.commons.logging.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.11.0</version>
+        </dependency>
+    </dependencies>
+
+    <!--Could not resolve dependencies for project org.apache:fe-core:jar:3.4.0: Failure to find com.sleepycat:je:jar:7.3.7 原因就是通过 https://repo.spring.io/libs-milestone/com/sleepycat/je/7.3.7/je-7.3.7.jar 下载包时需要用户认证，所以会下载失败，可以在 Maven 配置文件 setting.xml 中新增如下的仓库镜像，重新编译即可。-->
+    <repositories>
+        <repository>
+            <id>oracleReleases</id>
+            <name>Oracle Released Java Packages</name>
+            <url>http://download.oracle.com/maven</url>
+            <layout>default</layout>
+        </repository>
+    </repositories>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <!--实体生成插件，运行hibernate-tools:hbm2java-->
+            <!--https://juejin.im/post/5cf728c951882575c76f70db-->
+            <plugin>
+                <groupId>com.github.stadler</groupId>
+                <artifactId>hibernate-tools-maven-plugin</artifactId>
+                <version>0.1.1</version>
+                <executions>
+                    <execution>
+                        <id>Entity generation</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>hbm2java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!--模板路径，如果有定制模板，需要指定-->
+                    <!--<templatePath>${project.basedir}/src/main/resources</templatePath>-->
+                    <!-- Defaults: -->
+                    <outputDirectory>${project.basedir}/src/main/java/</outputDirectory>
+                    <!-- Hibernate数据库连接属性文件 -->
+                    <configFile>src/main/resources/hibernate.xml</configFile>
+                    <!-- 反转规则配置文件，不是必须的 -->
+                    <!--<revengFile>src/main/resources/reveng.xml</revengFile>-->
+                    <!-- 生成实体类默认包 -->
+                    <packageName>com.kinginsai.CRM.entity</packageName>
+                    <detectManyToMany>true</detectManyToMany>
+                    <detectOneToOne>true</detectOneToOne>
+                    <detectOptimisticLock>true</detectOptimisticLock>
+                    <createCollectionForForeignKey>false</createCollectionForForeignKey>
+                    <createManyToOneForForeignKey>false</createManyToOneForForeignKey>
+                    <!-- 如果设置为true则生成JPA注解，若设置为false则生成hbml.xml -->
+                    <ejb3>true</ejb3>
+                    <jdk5>true</jdk5>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>5.1.46</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
